@@ -2,6 +2,7 @@ import math
 import NXOpen
 import NXOpen.Features
 import NXOpen.GeometricUtilities
+import NXOpen.CAE
 
 class NX_parser(object):
     """docstring for NX_parser."""
@@ -26,6 +27,11 @@ class NX_parser(object):
         self.theSession.ApplicationSwitchImmediate("UG_APP_MODELING")
 
     def create_FEM_part(self, filename):
+        theSession  = NXOpen.Session.GetSession()
+        workPart = self.theSession.Parts.Work
+        displayPart = self.theSession.Parts.Display
+
+
         fileNew1 = self.theSession.Parts.FileNew()
         fileNew1.TemplateFileName = "FemNxNastranMetric.fem"
         fileNew1.UseBlankTemplate = False
@@ -65,11 +71,11 @@ class NX_parser(object):
         femSynchronizeOptions1.SynchronizeConicsFlag = False
         femSynchronizeOptions1.SynchronizeSketchCurvesFlag = False
 
-        part1 = theSession.Parts.FindObject("model1")
-        femCreationOptions1.SetCadData(part1, "C:\\Users\\tuanat\\Desktop\\test\\model1.prt")
+        part1 = theSession.Parts.FindObject("cake")
+        femCreationOptions1.SetCadData(part1, "C:\\Users\\tuanat\\Desktop\\test\\cake\\cake.prt")
 
         bodies1 = [NXOpen.Body.Null] * 1
-        body1 = part1.Bodies.FindObject("BLOCK(11)")
+        body1 = part1.Bodies.FindObject("BLOCK(4)")
         bodies1[0] = body1
         femCreationOptions1.SetGeometryOptions(NXOpen.CAE.FemCreationOptions.UseBodiesOption.VisibleBodies, bodies1, femSynchronizeOptions1)
         femCreationOptions1.SetSolverOptions("NX NASTRAN", "Structural", NXOpen.CAE.BaseFemPart.AxisymAbstractionType.NotSet)
@@ -86,7 +92,7 @@ def main() :
     iz = NX_parser()
     iz.create_block([0,0,0],[100,100,300])
 
-    iz.go_to_prepost()
+    #iz.go_to_prepost()
     iz.create_FEM_part('cake')
 
 if __name__ == '__main__':
