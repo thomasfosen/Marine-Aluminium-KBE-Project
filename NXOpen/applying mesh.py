@@ -38,7 +38,7 @@ def main() :
     destinationCollectorBuilder1.AutomaticMode = True
 
     #mesh settings
-    mesh3dHexBuilder1.PropertyTable.SetIntegerPropertyValue("mesh time stamp", 0)
+    """mesh3dHexBuilder1.PropertyTable.SetIntegerPropertyValue("mesh time stamp", 0)
     mesh3dHexBuilder1.PropertyTable.SetIntegerPropertyValue("mesh edit allowed", 0)
     mesh3dHexBuilder1.PropertyTable.SetBaseScalarWithDataPropertyValue("quad mesh overall edge size", "1", unit_tran)
     mesh3dHexBuilder1.PropertyTable.SetBaseScalarWithDataPropertyValue("source element size", "31.6", unit_tran)
@@ -51,7 +51,7 @@ def main() :
     mesh3dHexBuilder1.PropertyTable.SetIntegerPropertyValue("number of layers", 1)
     mesh3dHexBuilder1.PropertyTable.SetBooleanPropertyValue("project vertices option", False)
     mesh3dHexBuilder1.PropertyTable.SetBooleanPropertyValue("target face smoothing option", False)
-
+"""
     meshes1 = mesh3dHexBuilder1.CommitMesh()
 
 if __name__ == '__main__':

@@ -21,7 +21,7 @@ def main():
     psolutions1[0] = simSolution1
     numsolutionssolved1, numsolutionsfailed1, numsolutionsskipped1 = theSimSolveManager.SolveChainOfSolutions(psolutions1, NXOpen.CAE.SimSolution.SolveOption.Solve, NXOpen.CAE.SimSolution.SetupCheckOption.CompleteCheckAndOutputErrors, NXOpen.CAE.SimSolution.SolveMode.Background)
 
-
+    #to give results some buffer time
     time.sleep(10)
 
     simResultReference1 = simSolution1.Find("Structural")
