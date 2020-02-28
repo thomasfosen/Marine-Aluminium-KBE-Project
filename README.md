@@ -7,8 +7,18 @@ The gusset nodes are intended for use in Marine Aluminium's helidecks, and shoul
 
 High level primitives (HLP) can be what the customer sees
 
+<p align="center">
+<img src="https://github.com/thomasfosen/Marine-Aluminium-KBE-Project/blob/master/figures/Duralok-6.png" width="400">
+Example node
+</p>
+
 ## Method
 ### Architecture
 
 ### Gusset node
 Initial focus was directed towards system functionality and expandability, instead of the complexity of the node. Therefore, a simplistic shape was selected for the node this time. This allowed us to develop a system to generate the geometry while keeping track of relevant faces and bodies. Because of this functionality, changes to the node should be automatically incorporated by the system, allowing for changes and more complex nodes to be developed.
+
+### Meshing
+The mesh type chosen for this demonstration was TET10 for the simple reason that it's the most easy and flexible mesh to apply.
+
+### Simulation environment

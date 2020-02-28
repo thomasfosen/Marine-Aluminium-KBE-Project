@@ -25,6 +25,7 @@ class NX_wrapper():
         #IMPORTANT: Specify path to directory
         self.path = 'C:/Users/tuanat/Desktop/test/cake/'
 
+        self.body_objects = []
 
     def create_block(self, coords, dims):
         theSession  = NXOpen.Session.GetSession()
@@ -435,17 +436,72 @@ class NX_wrapper():
         psolutions1[0] = simSolution1
         numsolutionssolved1, numsolutionsfailed1, numsolutionsskipped1 = theSimSolveManager.SolveChainOfSolutions(psolutions1, NXOpen.CAE.SimSolution.SolveOption.Solve, NXOpen.CAE.SimSolution.SetupCheckOption.CompleteCheckAndOutputErrors, NXOpen.CAE.SimSolution.SolveMode.Background)
 
+    def refresh_KF_rule(self):
+        theSession  = NXOpen.Session.GetSession()
+        workPart = theSession.Parts.BaseWork
+        workPart.RuleManager.Reload(True)
+        workPart.RuleManager.RegenerateAll()
+
+    def update_fem_geometry(self):
+        theSession  = NXOpen.Session.GetSession()
+        workFemPart = theSession.Parts.BaseWork
+
+        fEModel1 = workFemPart.FindObject("FEModel")
+        fEModel1.UpdateFemodel()
+
+    def jump_to_prt(self):
+        theSession  = NXOpen.Session.GetSession()
+        workFemPart = theSession.Parts.BaseWork
+        displayFemPart = theSession.Parts.BaseDisplay
+        part1 = theSession.Parts.FindObject(self.filename)
+        status1, partLoadStatus1 = theSession.Parts.SetDisplay(part1, False, False)
+
+        workFemPart = NXOpen.BasePart.Null
+        workPart = theSession.Parts.Work
+        displayFemPart = NXOpen.BasePart.Null
+        displayPart = theSession.Parts.Display
+        theSession.Parts.SetWork(workPart)
+
+    def jump_to_fem(self):
+        theSession  = NXOpen.Session.GetSession()
+        workPart = theSession.Parts.Work
+        displayPart = theSession.Parts.Display
+        femPart1 = theSession.Parts.FindObject(self.filename + "_fem")
+        status1, partLoadStatus1 = theSession.Parts.SetDisplay(femPart1, False, False)
+
+        workPart = NXOpen.Part.Null
+        workFemPart = theSession.Parts.BaseWork
+        displayPart = NXOpen.Part.Null
+        displayFemPart = theSession.Parts.BaseDisplay
+        femPart2 = workFemPart
+        theSession.Parts.SetWork(femPart2)
+    #these only work in the modeling environment
+
+    def jump_to_sim(self):
+        theSession  = NXOpen.Session.GetSession()
+        workFemPart = theSession.Parts.BaseWork
+        displayFemPart = theSession.Parts.BaseDisplay
+
+        simPart1 = theSession.Parts.FindObject(self.filename + "_fem_sim1")
+        status1, partLoadStatus1 = theSession.Parts.SetActiveDisplay(simPart1, NXOpen.DisplayPartOption.AllowAdditional, NXOpen.PartDisplayPartWorkPartOption.SameAsDisplay)
+
+        workSimPart = theSession.Parts.BaseWork
+        displaySimPart = theSession.Parts.BaseDisplay
+        partLoadStatus1.Dispose()
+    def get_solid_bodies(self):
+        pass
     def find_solid_bodies(self):
         theSession  = NXOpen.Session.GetSession()
+        theNxMessageBox = NXOpen.UI.GetUI().NXMessageBox
         try:
             workPart = theSession.Parts.Work
 
         #just a check to see if parts can be created in FEM mode. It's possible, but they need to be loaded into the correct environment
         except Exception as e:
             workPart = theSession.Parts.BaseWork
-
+            theNxMessageBox.Show("test",NXOpen.NXMessageBoxDialogType.Information, str(1))
         #object for showing dialogue boxes
-        theNxMessageBox = NXOpen.UI.GetUI().NXMessageBox
+
 
         #collect all objects on a particular layer (default is 1)
         objects = workPart.Layers.GetAllObjectsOnLayer(1)
@@ -454,6 +510,8 @@ class NX_wrapper():
         face_counter = 0
         #Loops through all objects
         for object in objects:
+            if object.Name != "":
+                theNxMessageBox.Show("test",NXOpen.NXMessageBoxDialogType.Information, object.Name)
             try:
                 #attempts to check if object is a body
                 if object.IsSolidBody:
@@ -464,6 +522,7 @@ class NX_wrapper():
                     faces = object.GetFaces()
 
                     face_counter += len(faces)
+                    theNxMessageBox.Show("test",NXOpen.NXMessageBoxDialogType.Information, str(object.JournalIdentifier))
 
 
             #if error is met, do nothing
@@ -473,6 +532,13 @@ class NX_wrapper():
         theNxMessageBox.Show("test",NXOpen.NXMessageBoxDialogType.Information, str(len(objects)))
         theNxMessageBox.Show("test",NXOpen.NXMessageBoxDialogType.Information, str(body_counter))
         theNxMessageBox.Show("test",NXOpen.NXMessageBoxDialogType.Information, str(face_counter))
+
+    def update_geometry(self):
+        self.jump_to_prt()
+        self.refresh_KF_rule()
+        self.jump_to_fem()
+        self.update_fem_geometry()
+        self.jump_to_sim()
 def main() :
 
 
@@ -509,7 +575,21 @@ def main() :
     #for i in range(6):
     #    iz.apply_force(i+1, [1,1,1])
     iz.solve()"""
-
-    iz.find_solid_bodies()
+    mesh_collector = 'test'
+    mesh_size = 20
+    #iz.apply_tet_mesh(5,mesh_size, mesh_collector)
+    #iz.find_solid_bodies()
+    #iz.refresh_KF_rule()
+    #iz.jump_to_fem()
+    #iz.update_geometry()
+    #iz.apply_force(800000, 5, 2, [1,0,0])
+    #iz.apply_constraint(5, 1)
+    #iz.solve()
+    #iz.apply_tet_mesh(15,mesh_size, mesh_collector)
+    theNxMessageBox = NXOpen.UI.GetUI().NXMessageBox
+    #theNxMessageBox.Show("test",NXOpen.NXMessageBoxDialogType.Information, str(NXOpen.CAE.ResultComponent.MaximumShear))
+    theNxMessageBox.Show("test",NXOpen.NXMessageBoxDialogType.Information, str(len(NXOpen.CAE.Result.AskElementNodes.elementIndex)))
+    #for cake in NXOpen.CAE.Result.AskElementNodes:
+    #    theNxMessageBox.Show("test",NXOpen.NXMessageBoxDialogType.Information, str(cake.elementIndex))
 if __name__ == '__main__':
     main()
