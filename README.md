@@ -8,7 +8,7 @@ The gusset nodes are intended for use in Marine Aluminium's helidecks, and shoul
 High level primitives (HLP) can be what the customer sees
 
 <p align="center">
-<img src="https://github.com/thomasfosen/Marine-Aluminium-KBE-Project/blob/master/figures/Duralok-6.png" width="400">
+<img src="https://github.com/thomasfosen/Marine-Aluminium-KBE-Project/blob/master/figures/Duralok-6.png" width="400"><br>
 Example node
 </p>
 
