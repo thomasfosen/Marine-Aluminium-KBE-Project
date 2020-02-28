@@ -7,16 +7,19 @@
 
     <h1>Node generation</h1>
 
+      <form class="" action="{{ url_for('main') }}" method="post">
+
       <table>
           <tr>
             <th>Force (Newtons)</th>
-            <th><input type="number" name="" value=""></th>
+            <th><input type="number" name="forcevalue" value=""></th>
             <th>Torque (Newtonmeters)</th>
-            <th><input type="number" name="" value=""></th>
+            <th><input type="number" name="torquevalue" value=""></th>
           </tr>
       </table>
 
       <input type="submit">
+
     </div>
   </body>
 </html>
