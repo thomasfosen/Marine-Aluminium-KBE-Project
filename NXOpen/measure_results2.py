@@ -11,7 +11,7 @@ def main() :
 
     simSimulation1 = workSimPart.FindObject("Simulation")
     objects1 = [NXOpen.CAE.ResultMeasure.Null] * 1
-    resultMeasure1 = simSimulation1.ResultMeasures.Find("NXOpen.CAE.ResultMeasure[test]")
+    resultMeasure1 = simSimulation1.ResultMeasures.Find("NXOpen.CAE.ResultMeasure[newresultmeasure]")
     objects1[0] = resultMeasure1
 
     simSimulation1.ResultMeasures.UpdateMeasures(objects1)
