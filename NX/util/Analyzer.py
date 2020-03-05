@@ -416,3 +416,75 @@ class Analyzer:
 		psolutions1 = [NXOpen.CAE.SimSolution.Null] * 1
 		psolutions1[0] = simSolution1
 		numsolutionssolved1, numsolutionsfailed1, numsolutionsskipped1 = theSimSolveManager.SolveChainOfSolutions(psolutions1, NXOpen.CAE.SimSolution.SolveOption.Solve, NXOpen.CAE.SimSolution.SetupCheckOption.CompleteCheckAndOutputErrors, NXOpen.CAE.SimSolution.SolveMode.Background)
+
+
+
+
+	"""
+	Updates geometry by updating DFA files
+	"""
+	def refresh_KF_rule(self):
+        theSession  = NXOpen.Session.GetSession()
+        workPart = theSession.Parts.BaseWork
+        workPart.RuleManager.Reload(True)
+        workPart.RuleManager.RegenerateAll()
+
+	"""
+	Updates the geometry in the FEM which in turn updates the mesh
+	"""
+    def update_fem_geometry(self):
+        theSession  = NXOpen.Session.GetSession()
+        workFemPart = theSession.Parts.BaseWork
+
+        fEModel1 = workFemPart.FindObject("FEModel")
+        fEModel1.UpdateFemodel()
+
+
+    def jump_to_prt(self):
+        theSession  = NXOpen.Session.GetSession()
+        workFemPart = theSession.Parts.BaseWork
+        displayFemPart = theSession.Parts.BaseDisplay
+        part1 = theSession.Parts.FindObject(self.filename)
+        status1, partLoadStatus1 = theSession.Parts.SetDisplay(part1, False, False)
+
+        workFemPart = NXOpen.BasePart.Null
+        workPart = theSession.Parts.Work
+        displayFemPart = NXOpen.BasePart.Null
+        displayPart = theSession.Parts.Display
+        theSession.Parts.SetWork(workPart)
+
+    def jump_to_fem(self):
+        theSession  = NXOpen.Session.GetSession()
+        workPart = theSession.Parts.Work
+        displayPart = theSession.Parts.Display
+        femPart1 = theSession.Parts.FindObject(self.filename + "_fem")
+        status1, partLoadStatus1 = theSession.Parts.SetDisplay(femPart1, False, False)
+
+        workPart = NXOpen.Part.Null
+        workFemPart = theSession.Parts.BaseWork
+        displayPart = NXOpen.Part.Null
+        displayFemPart = theSession.Parts.BaseDisplay
+        femPart2 = workFemPart
+        theSession.Parts.SetWork(femPart2)
+    #these only work in the modeling environment
+
+    def jump_to_sim(self):
+        theSession  = NXOpen.Session.GetSession()
+        workFemPart = theSession.Parts.BaseWork
+        displayFemPart = theSession.Parts.BaseDisplay
+
+        simPart1 = theSession.Parts.FindObject(self.filename + "_fem_sim1")
+        status1, partLoadStatus1 = theSession.Parts.SetActiveDisplay(simPart1, NXOpen.DisplayPartOption.AllowAdditional, NXOpen.PartDisplayPartWorkPartOption.SameAsDisplay)
+
+        workSimPart = theSession.Parts.BaseWork
+        displaySimPart = theSession.Parts.BaseDisplay
+        partLoadStatus1.Dispose()
+
+
+
+    def update_geometry(self):
+        self.jump_to_prt()
+        self.refresh_KF_rule()
+        self.jump_to_fem()
+        self.update_fem_geometry()
+        self.jump_to_sim()
