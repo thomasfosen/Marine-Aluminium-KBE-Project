@@ -1,0 +1,85 @@
+#! NX/KF 4.0
+DefClass: My_Node_Generated (ug_base_part);
+
+#template_start
+(number parameter) sphere_diameter:200;
+
+
+
+(number parameter) beam_length: 600;
+#template_end
+(number parameter) beam_diameter: 500;
+
+
+(child) node:
+    {
+      class, ug_sphere;
+      Diameter, sphere_diameter:200;
+  		Center, Point(0,0,0);
+    };
+
+(child) beam_y_1:
+    {
+      class, ug_cylinder;
+      diameter, beam_diameter:;
+      height, beam_length:;
+  		Origin, Point(0,-sphere_diameter:200;
+  		Direction, Vector(0,-1,0);
+  		Operation, Subtract;
+  		Target, {node:};
+    };
+
+(child) beam_y_2:
+    {
+      class, ug_cylinder;
+      diameter, beam_diameter:;
+      height, beam_length:;
+  		Origin, Point(0,sphere_diameter:200;
+  		Direction, Vector(0,1,0);
+  		Operation, Subtract;
+  		Target, {node:};
+    };
+
+(child) beam_x_1:
+    {
+      class, ug_cylinder;
+      diameter, beam_diameter:;
+      height, beam_length:;
+      Origin, Point(-sphere_diameter:200;
+  		Direction, Vector(-1,0,0);
+  		Operation, Subtract;
+  		Target, {node:};
+    };
+
+(child) beam_x_2:
+    {
+      class, ug_cylinder;
+      diameter, beam_diameter:;
+      height, beam_length:;
+  		Origin, Point(sphere_diameter:200;
+  		Direction, Vector(1,0,0);
+  		Operation, Subtract;
+  		Target, {node:};
+    };
+
+(child) vertical_beam_1:
+    {
+      class, ug_cylinder;
+      diameter, beam_diameter:;
+      height, beam_length:;
+  		Origin, Point(0,0,sphere_diameter:200;
+  		Direction, Vector(0,0,1);
+  		Operation, Subtract;
+  		Target, {node:};
+    };
+
+(child) vertical_beam_2:
+    {
+      class, ug_cylinder;
+      diameter, beam_diameter:;
+      height, beam_length:;
+  		Origin, Point(0,0,-sphere_diameter:200;
+  		Direction, Vector(0,0,-1);
+  		Operation, Subtract;
+  		Target, {node:};
+    };
