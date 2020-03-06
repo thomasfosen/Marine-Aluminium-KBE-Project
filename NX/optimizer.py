@@ -157,18 +157,34 @@ class Optimizer():
         self.dfa_manager.change_node_diameter(self.default_node_diameter)
 
         # optimization loop
-        # going from low stress to the limit. it's possible to do it from either direction
+        # going from low stress (bigger diameter => bigger surface per force => low stress) to the limit. it's possible to do it from either direction
         # and with a decreasing change in diameter to get a more accurate result
         stress_result = 0
         optimize = True
+        # how much the diameter will change in each iteration
         change_in_diameter = -10
+
         while optimize == True:
+            # performs a single full iteration of updatating geometry, simulating and retrieving results
             result = self.perform_loop_iteration(change_in_diameter)
 
+            # to detect when to stop the iteration. when target has been surpassed
             if result > target_stress:
                 optimize = False
+
+                # saving the last diameter. although, we should be getting the previous diameter
+                # one solution is to store all the results in an array => easily get the previous result
                 final_diameter = current_node_diameter = self.dfa_manager.get_node_diameter()
+
+                #just a simple print for the user. This should be replaced with a message to the web server
                 self.print('Optimization has finished. Final stress:' + str(result) + '\n final diameter:' + str(final_diameter))
+
+    #journal the process of updating the force (probably exists)
+    def update_force(self, force, name='force(1)'):
+        pass
+
+    def update_torque(self, torque, name='torque(1)'):
+        pass
 
 if __name__ == '__main__':
     AA5086_yield = 215 #MPa
