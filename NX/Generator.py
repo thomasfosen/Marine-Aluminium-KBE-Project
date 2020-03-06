@@ -6,7 +6,7 @@ class Generator():
         self.dfa_target = 'node_template'
 
     def read_dfa_template(self, target):
-        return open(target + '.dfa', "r").read()
+        return open(self.dfa_template_location + target + '.dfa', "r").read()
 
     def get_dfa_parameters(self, target):
         dfa = self.read_dfa_template(target)
@@ -37,27 +37,28 @@ class Generator():
         f = open(template + "_generated.dfa", "w")
         f.write(dfa)
 
+
+    def get_node_diameter(self):
+        template = 'node_template_generated'
+        dfa = self.read_dfa_template(template)
+        diameter = re.findall(r'\)\s*sphere_diameter:(.+?);', dfa)
+        return int(diameter[0])
+
     def change_node_diameter(self, diameter):
         template = 'node_template'
         dfa = self.read_dfa_template(template)
         dfa = re.sub('My_Node',  'My_Node_Generated',    dfa)
-        dfa = re.sub('(' + 'sphere_diameter' + '.+?);',  'sphere_diameter' + ':' + str(diameter) + ';', dfa)
+        dfa = re.sub('parameter\)\s*sphere_diameter' + '(.+?);',  'parameter) sphere_diameter' + ':' + str(diameter) + ';', dfa)
 
-        f = open(template + "_generated.dfa", "w")
+        f = open(self.dfa_template_location + template + "_generated.dfa", "w")
         f.write(dfa)
 
     def filter(self, val):
         return val.split('#', 1)[-1]
 
-
-cake = Generator()
-array = cake.get_dfa_parameters('node_template')
-# print(array)
-
-print(array[1])
-array[1][0]=136
-print(array)
-# test['sphere_diameter'] = 123
-
-# cake.generate_dfa('node_template', array[0], array)
-cake.change_node_diameter(200)
+#
+# cake = Generator()
+# array = cake.get_dfa_parameters('node_template')
+#
+# print(cake.get_node_diameter())
+# cake.change_node_diameter(400)

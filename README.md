@@ -16,6 +16,8 @@ High level primitives (HLP) can be what the customer sees
 ### Architecture
 * Put a figure of the full architecture
 * Put a figure of the optimizer loop architecture
+
+Write that our attention was directed towards having a functional loop. This means that the assigning of loads and constraints are not included in the loop (mention that they have been made into functions, so automating the initial steps should be possible). My point is that, the creation of the simulation model only has to be done once, while the loop should in theory be iterable up to an infinite amount of times. Thus the first steps are not considered in the loop (the line)
 ### Gusset node
 Initial focus was directed towards system functionality and expandability, instead of the complexity of the node. Therefore, a simplistic shape was selected for the node this time. This allowed us to develop a system to generate the geometry while keeping track of relevant faces and bodies. Because of this functionality, changes to the node should be automatically incorporated by the system, allowing for changes and more complex nodes to be developed.
 
