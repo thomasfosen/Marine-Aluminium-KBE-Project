@@ -99,6 +99,7 @@ Figure 3: Optimizer loop achitecture
 
 The main requirements for the system to be functional are met, although there is room for improvement in most components. The main focus in our system is the optimization loop, which means the node model and the user interface are simplified designs. These components in particular could, and should, be further improved.  
 
+As mentioned before, the geometry changes being made are reductions of the sphere diameter by 10mm. This constant reduction could possibly be time inefficient. To make it more time efficient we could look at the difference between the resulted stress and the yield strength, and also how much impact the 10mm reduction has on the resulted stress, and calculate a more accurate reduction of the diameter. A more complex solution could be to use topology optimization combined with artificial neural networks(ANN) or a genetic algorithm(GA).
 
 
 ## Conclusion
