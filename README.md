@@ -106,3 +106,5 @@ The main requirements for the system to be functional are met, although there is
 
 
 ## Conclusion
+
+The system is considered functional with regard to the problem statement, although there are many improvements to be made.
