@@ -95,7 +95,7 @@ Figure 3: Optimizer loop achitecture
 
 <p align="center">
 <img src="https://github.com/thomasfosen/Marine-Aluminium-KBE-Project/blob/master/figures/optimize.png" width="600"><br>
-Figure 4: Optimizer loop achitecture
+Figure 4: Optimizer loop results
 </p>
 
 ## Discussion
