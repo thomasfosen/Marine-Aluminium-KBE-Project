@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request
 
 
-
 app = Flask(__name__)
 
 
@@ -11,7 +10,14 @@ def main():
 
     customer_form = request.form
 
+    forcevalue = customer_form['forcevalue']
+	torquevalue = customer_form['torquevalue']
+
+
+    #os.system("start /B start cmd.exe @cmd /k start_communicator.bat 10 20 30")
+
     return render_template('User.html')
+
 
 
 

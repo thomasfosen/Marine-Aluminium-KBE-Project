@@ -1,5 +1,5 @@
 import asyncio
-#import websockets
+import websockets
 import argparse
 
 parser = argparse.ArgumentParser()
@@ -13,7 +13,7 @@ force = args.f
 torque = args.t
 
 
-#print(torque, force, cmd)
+print(torque, force, cmd)
 
 """
 async def message():
