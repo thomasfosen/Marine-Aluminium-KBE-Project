@@ -34,6 +34,8 @@ We use websockets for the NX server to listen and communicate with the web serve
 
 When the results don't match up with the requirements, the loop sends us back to the part in NX, and then to modelling, where the Knowledge Fusion child rule is refreshed and the diameter is reduced with 10mm. The next part of the loop is to go to fem and update the mesh geometry and solve the simulation with the new geometry. Then the result are checked. If requirements are met the finished geometry is sent to the web server. If the requirements are not met the iteration continues.
 
+###NX Server 
+
 To set up the NX server, we decided to use python websockets module. This module is however not commonly available in the default NX python 3.6 library. To overcome this, we had to manually locate and edit the library. For us, the library was located at C:\Program Files\Siemens\NX 12.0\NXBIN\python as a Python36.zip file. The websocket module, among other modules were added for experimentation. The edited version of the zip can be found [here](https://drive.google.com/open?id=1WgCf_HSY4ERatKjxpM7Fh7ePXeKPpVZC).
 
 To run the server from NX, the following code was added to the server script:
