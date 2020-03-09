@@ -23,6 +23,13 @@ High level primitives (HLP) can be what the customer sees
 
 Our attention was directed towards having a functional loop. Instead of having a complex geometry we decided to start the simulation with a simple sphere(dfa template) with 6 surfaces. One of the surfaces gets a fixed constraint, and another is applied both a force and a torque. Although these steps are not in the loop, they are all made into functions and could be automated aswell. 
 
+<p align="center">
+<img src="https://github.com/thomasfosen/Marine-Aluminium-KBE-Project/blob/master/figures/system_loop.PNG" width="600"><br>
+Figure 2: System loop achitecture 
+</p>
+
+
+
 We use websockets for the NX server to listen and communicate with the web server. When the customer has inputted the force and torque the node, with default diameter, goes through FEA generating a result which either meets the requirements and results in finished geometry, or gets sent back to the loop for further iteration in order to get a optimal geometry. As with the assignment of constraints, forces and torques, the geometry optimization is a simplified solution in that it is just a reduction of the sphere's diameter. A more complex solution could be to use topological optimization through use of Artificial neural networks(ANN) or a genetic algorithm(GA). 
 
 When the results don't match up with the requirements, the loop sends us back to the part in NX, and then to modelling, where the Knowledge Fusion child rule is refreshed and the diameter is reduced with 10mm. The next part of the loop is to go to fem and update the mesh geometry and solve the simulation with the new geometry. Then the result are checked. If requirements are met the finished geometry is sent to the web server. If the requirements are not met the iteration continues. 
