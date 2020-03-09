@@ -1,6 +1,6 @@
 # Marine-Aluminium-KBE-Project
 ### Action points
-* Make NX server use websockets
+
 * Integrate website (user interface) with NX server
 
 
