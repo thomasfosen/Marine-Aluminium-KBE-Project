@@ -2,7 +2,7 @@
 DefClass: My_Node_Generated (ug_base_part);
 
 #template_start
-(number parameter) sphere_diameter:50;
+(number parameter) sphere_diameter:400;
 
 
 

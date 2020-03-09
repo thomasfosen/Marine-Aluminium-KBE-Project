@@ -105,13 +105,13 @@ class Optimizer():
         psolutions1[0] = simSolution1
         numsolutionssolved1, numsolutionsfailed1, numsolutionsskipped1 = theSimSolveManager.SolveChainOfSolutions(psolutions1, NXOpen.CAE.SimSolution.SolveOption.Solve, NXOpen.CAE.SimSolution.SetupCheckOption.CompleteCheckAndOutputErrors, NXOpen.CAE.SimSolution.SolveMode.Background)
 
-    def get_result(self):
+    def get_result(self, name="max_von_mises"):
         theSession  = NXOpen.Session.GetSession()
         workSimPart = theSession.Parts.BaseWork
 
         simSimulation1 = workSimPart.FindObject("Simulation")
         objects1 = [NXOpen.CAE.ResultMeasure.Null] * 1
-        resultMeasure1 = simSimulation1.ResultMeasures.Find("NXOpen.CAE.ResultMeasure[max_von_mises]")
+        resultMeasure1 = simSimulation1.ResultMeasures.Find("NXOpen.CAE.ResultMeasure[" + str(name) + "]")
         objects1[0] = resultMeasure1
 
         simSimulation1.ResultMeasures.UpdateMeasures(objects1)
@@ -165,13 +165,18 @@ class Optimizer():
         # how much the diameter will change in each iteration
         change_in_diameter = -10
 
+        self.print(1)
+
         while optimize == True:
+            self.print(5)
             # performs a single full iteration of updatating geometry, simulating and retrieving results
             result = self.perform_loop_iteration(change_in_diameter)
+            self.print(2)
 
             # to detect when to stop the iteration. when target has been surpassed
             if result > target_stress:
                 optimize = False
+                self.print(3)
 
                 # saving the last diameter. although, we should be getting the previous diameter
                 # one solution is to store all the results in an array => easily get the previous result
@@ -281,7 +286,7 @@ if __name__ == '__main__':
     optimizer = Optimizer('model1', 'C:/Users/tuanat/Desktop/The loop')
 
     optimizer.go_to_sim()
-    optimizer.update_force(30000)
-    optimizer.update_torque(50000)
+    # optimizer.update_force(30000)
+    # optimizer.update_torque(50000)
 
     optimizer.optimize(target_stress)

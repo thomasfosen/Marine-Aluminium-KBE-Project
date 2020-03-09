@@ -1,22 +1,22 @@
 #Written for NX 12.0.2.9
 import math
 import NXOpen
+import NXOpen.CAE
+import NXOpen.Fields
+
 import time
 import sys
+import random
 
+from Generator import Generator
 #nx has its own local library located in: #C:\Program Files\Siemens\NX 12.0\NXBIN\python
 #to add additional libraries, manipulate the python36.zip file
 import asyncio
 import signal
 import websockets
 
-import time
-
-
 from Optimizer import Optimizer
 #setup json for commmand-handling?
-
-
 
 #displayPart = theSession.Parts.Display
 
@@ -115,9 +115,9 @@ async def response(websocket, path):
 
         optimizer.print(force)
 
-        optimizer.go_to_sim()
-        optimizer.update_force(30000)
-        optimizer.update_torque(50000)
+        #optimizer.go_to_sim()
+        #optimizer.update_force(30000)
+        #optimizer.update_torque(50000)
 
         optimizer.optimize(target_stress)
 
