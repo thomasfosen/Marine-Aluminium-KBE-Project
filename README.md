@@ -83,7 +83,10 @@ To keep things simple, the load cases for the node was reduced to only one force
 To extract the results, the "result measures" function in NX was used. This function was available through the NXOpen class "ResultMeasures" and allowed max values of any kind to be accessed through python code. Initially, the plan was to use either the OP2, or other result files to read through simulation results. However, after much digging it was suspected that NX is applying a form of post-processing in order to convert stress into for example von mises and max principal stresses, which would make sense.
 
 
-### Optimization
+### Optimization/Results
+
+
+The following is a visualization of the optimization process. The loop has been initiated with a given value from the customer/engineer, and is now iterating through analyses. The final result is given as shown in figure 4.
 
 <p align="center">
 <img src="https://github.com/thomasfosen/Marine-Aluminium-KBE-Project/blob/master/figures/Recording-2.gif" width="600"><br>
@@ -92,7 +95,7 @@ Figure 3: Optimizer loop achitecture
 
 <p align="center">
 <img src="https://github.com/thomasfosen/Marine-Aluminium-KBE-Project/blob/master/figures/optimize.png" width="600"><br>
-Figure 3: Optimizer loop achitecture
+Figure 4: Optimizer loop results
 </p>
 
 ## Discussion
