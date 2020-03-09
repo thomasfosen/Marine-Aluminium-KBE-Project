@@ -17,3 +17,9 @@ def main():
 
 if __name__ == '__main__':
     app.run(debug = True, host = '0.0.0.0', port = '5000')
+
+
+
+# The process needs to be launched from a seperate process thread. Doing this inside a flask application wasn't as straight forward as initially thought..
+# When initation a secondary thread for this server command inside FLASK, NXOpen doesn't run certain codes for an unknown reason
+# os.system("start /B start cmd.exe @cmd /k refresh.bat")

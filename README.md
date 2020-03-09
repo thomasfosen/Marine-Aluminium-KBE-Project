@@ -1,4 +1,8 @@
 # Marine-Aluminium-KBE-Project
+### Action points
+* Make NX server use websockets
+* Integrate website (user interface) with NX server
+
 
 ## Introduction
 This page is the culmination of work conducted under the KBE project course taught by Andrei Lobov. The report is written in iterative processes, updating new information as new goals and requirements are added. The work presented in this part involves the automated generation of a gusset node based on varying load parameters formulated by customer demands and engineer interpretation. The system architecture uses knowledge-based engineering (KBE) to capture engineering intent through parameterization to quickly automate generation of new product models based on customer and engineering demands.
