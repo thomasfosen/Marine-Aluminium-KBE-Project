@@ -21,7 +21,10 @@ High level primitives (HLP) can be what the customer sees
 * Put a figure of the full architecture
 * Put a figure of the optimizer loop architecture
 
-Write that our attention was directed towards having a functional loop. This means that the assigning of loads and constraints are not included in the loop (mention that they have been made into functions, so automating the initial steps should be possible). My point is that, the creation of the simulation model only has to be done once, while the loop should in theory be iterable up to an infinite amount of times. Thus the first steps are not considered in the loop (the line)
+Our attention was directed towards having a functional loop. Instead of having a complex geometry we decided to start the simulation with a simple sphere(dfa template) with 6 surfaces. One of the surfaces gets a fixed constraint, and another is applied both a force and a torque. Although these steps are not in the loop, they are all made into functions and could be automated aswell. 
+
+We use websockets for the NX server to listen and communicate with the web server. When the customer has inputted the force and torque the node, with default diameter, goes through FEA generating a result which either meets the requirements and results in finished geometry, or gets sent back to the loop for further iteration in order to get a optimal geometry. As with the assignment of constraints, forces and torques, the geometry optimization is a simplified solution in that it is just a reduction of the sphere's diameter. A more complex solution could be to use topological optimization through use of Artificial neural networks(ANN) or a genetic algorithm(GA).
+
 ### Gusset node
 Initial focus was directed towards system functionality and expandability, instead of the complexity of the node. Therefore, a simplistic shape was selected for the node this time. This allowed us to develop a system to generate the geometry while keeping track of relevant faces and bodies. Because of this functionality, changes to the node should be automatically incorporated by the system, allowing for changes and more complex nodes to be developed.
 
