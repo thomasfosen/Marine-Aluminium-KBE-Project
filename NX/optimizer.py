@@ -1,5 +1,6 @@
 import NXOpen
 import NXOpen.CAE
+import NXOpen.Fields
 
 import random
 import time
@@ -179,12 +180,97 @@ class Optimizer():
                 #just a simple print for the user. This should be replaced with a message to the web server
                 self.print('Optimization has finished. Final stress:' + str(result) + '\n final diameter:' + str(final_diameter))
 
-    #journal the process of updating the force (probably exists)
-    def update_force(self, force, name='force(1)'):
-        pass
+    # These are very part specific
+    def update_force(self, force, name='Force(1)'):
+        theSession  = NXOpen.Session.GetSession()
+        workSimPart = theSession.Parts.BaseWork
 
-    def update_torque(self, torque, name='torque(1)'):
-        pass
+        simSimulation1 = workSimPart.Simulation
+
+        simLoad1 = simSimulation1.Loads.FindObject("Load[Force(1)]")
+        simBCBuilder1 = simSimulation1.CreateBcBuilderForBc(simLoad1)
+
+        propertyTable1 = simBCBuilder1.PropertyTable
+        setManager1 = simBCBuilder1.TargetSetManager
+        simBCBuilder1.BcName = name
+        simBCBuilder1.BcLabel = 1
+
+        setManager2 = propertyTable1.GetSetManagerPropertyValue("DirectionNode1")
+        setManager3 = propertyTable1.GetSetManagerPropertyValue("DirectionNode2")
+        setManager4 = propertyTable1.GetSetManagerPropertyValue("DirectionNode3")
+        setManager5 = propertyTable1.GetSetManagerPropertyValue("DirectionNode4")
+
+        objects1 = [None] * 1
+        objects1[0] = NXOpen.CAE.SetObject()
+        component1 = workSimPart.ComponentAssembly.RootComponent.FindObject("COMPONENT model1_fem1 1")
+        cAEFace1 = component1.FindObject("PROTO#CAE_Body(78)|CAE_Face(774)")
+        objects1[0].Obj = cAEFace1
+        objects1[0].SubType = NXOpen.CAE.CaeSetObjectSubType.NotSet
+        objects1[0].SubId = 0
+        setManager1.SetTargetSetMembers(0, NXOpen.CAE.CaeSetGroupFilterType.GeomFace, objects1)
+
+        scalarFieldWrapper1 = propertyTable1.GetScalarFieldWrapperPropertyValue("TotalForce")
+
+        expression1 = scalarFieldWrapper1.GetExpression()
+
+        unit1 = workSimPart.UnitCollection.FindObject("Newton")
+        workSimPart.Expressions.EditWithUnits(expression1, unit1, str(force))
+
+        scalarFieldWrapper1.SetExpression(expression1)
+
+        propertyTable1.SetScalarFieldWrapperPropertyValue("TotalForce", scalarFieldWrapper1)
+
+        setManager6 = propertyTable1.GetSetManagerPropertyValue("DirectionNode1")
+        setManager7 = propertyTable1.GetSetManagerPropertyValue("DirectionNode2")
+        setManager8 = propertyTable1.GetSetManagerPropertyValue("DirectionNode3")
+        setManager9 = propertyTable1.GetSetManagerPropertyValue("DirectionNode4")
+
+        propertyTable1.SetTablePropertyWithoutValue("DistributionField")
+        propertyTable1.SetScalarFieldWrapperPropertyValue("DistributionField", NXOpen.Fields.ScalarFieldWrapper.Null)
+
+        propertyValue1 = []
+        propertyTable1.SetTextPropertyValue("description", propertyValue1)
+        simBC1 = simBCBuilder1.CommitAddBc()
+        simBCBuilder1.Destroy()
+
+    def update_torque(self, torque, name='Torque(1)'):
+        theSession  = NXOpen.Session.GetSession()
+        workSimPart = theSession.Parts.BaseWork
+        displaySimPart = theSession.Parts.BaseDisplay
+
+        simSimulation1 = workSimPart.Simulation
+
+        simLoad1 = simSimulation1.Loads.FindObject("Load[Torque(1)]")
+        simBCBuilder1 = simSimulation1.CreateBcBuilderForBc(simLoad1)
+
+        propertyTable1 = simBCBuilder1.PropertyTable
+        setManager1 = simBCBuilder1.TargetSetManager
+
+        simBCBuilder1.BcName = "Torque(1)"
+        simBCBuilder1.BcLabel = 1
+
+        objects1 = [None] * 1
+        objects1[0] = NXOpen.CAE.SetObject()
+        component1 = workSimPart.ComponentAssembly.RootComponent.FindObject("COMPONENT model1_fem1 1")
+        cAEEdge1 = component1.FindObject("PROTO#CAE_Body(78)|CAE_Edge(1007)")
+        objects1[0].Obj = cAEEdge1
+        objects1[0].SubType = NXOpen.CAE.CaeSetObjectSubType.NotSet
+        objects1[0].SubId = 0
+        setManager1.SetTargetSetMembers(0, NXOpen.CAE.CaeSetGroupFilterType.GeomCircularedge, objects1)
+
+        scalarFieldWrapper1 = propertyTable1.GetScalarFieldWrapperPropertyValue("TotalForce")
+        expression1 = scalarFieldWrapper1.GetExpression()
+        unit1 = workSimPart.UnitCollection.FindObject("NewtonMilliMeter")
+        workSimPart.Expressions.EditWithUnits(expression1, unit1, str(torque))
+
+        scalarFieldWrapper1.SetExpression(expression1)
+        propertyTable1.SetScalarFieldWrapperPropertyValue("TotalForce", scalarFieldWrapper1)
+
+        propertyValue1 = []
+        propertyTable1.SetTextPropertyValue("description", propertyValue1)
+
+        simBC1 = simBCBuilder1.CommitAddBc()
+        simBCBuilder1.Destroy()
 
 if __name__ == '__main__':
     AA5086_yield = 215 #MPa
@@ -193,4 +279,9 @@ if __name__ == '__main__':
     target_stress = AA5086_yield / safety_factor
 
     optimizer = Optimizer('model1', 'C:/Users/tuanat/Desktop/The loop')
+
+    optimizer.go_to_sim()
+    optimizer.update_force(30000)
+    optimizer.update_torque(50000)
+
     optimizer.optimize(target_stress)

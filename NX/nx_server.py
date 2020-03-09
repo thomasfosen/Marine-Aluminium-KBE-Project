@@ -12,23 +12,25 @@ import websockets
 
 import time
 
+
+from Optimizer import Optimizer
 #setup json for commmand-handling?
 
 
-theSession  = NXOpen.Session.GetSession()
-workPart = theSession.Parts.Work
+
 #displayPart = theSession.Parts.Display
 
 def load(name, c):
-    #check if the markId1 functions are necessary
-    markId1 = theSession.SetUndoMark(NXOpen.Session.MarkVisibility.Visible, "Add New Child Rule")
+    theSession  = NXOpen.Session.GetSession()
+    workPart = theSession.Parts.Work
     workPart.RuleManager.CreateDynamicRule("root:", name, "Child", "{\n Class, " + c + "; \n}", None)
-    nErrs1 = workPart.RuleManager.DoKfUpdate(markId1)
+
 
 def delete(name):
-    markId2 = theSession.SetUndoMark(NXOpen.Session.MarkVisibility.Visible, "Delete Rules")
+    theSession  = NXOpen.Session.GetSession()
+    workPart = theSession.Parts.Work
     workPart.RuleManager.DeleteDynamicRule("root:", name)
-    nErrs2 = workPart.RuleManager.DoKfUpdate(markId2)
+
 
 def capture():
     pass
@@ -46,13 +48,15 @@ async def response(websocket, path):
         cmd = message.split(' ')
         delete(cmd[1])
         #theNxMessageBox.Show("test", NXOpen.NXMessageBoxDialogType.Information, message)
-    if message[:4] == 'load':
+    elif message[:4] == 'load':
         cmd = message.split(' ')
         load(cmd[1], cmd[2])
-    if message == 'refresh':
+    elif message == 'refresh':
 
         #theSession  = NXOpen.Session.GetSession()
         #workPart = theSession.Parts.Work
+        theSession  = NXOpen.Session.GetSession()
+        workPart = theSession.Parts.Work
 
         workPart.RuleManager.Reload(True)
         workPart.RuleManager.RegenerateAll()
@@ -74,7 +78,7 @@ async def response(websocket, path):
         #final saving code
         nXObject1 = imageExportBuilder1.Commit()
 
-    if message == 'stop':
+    elif message == 'stop':
 
 
 
@@ -85,7 +89,7 @@ async def response(websocket, path):
     #await
 
     #asyncio.get_event_loop().stop()
-    if message == 'capture':
+    elif message == 'capture':
         img_name = "preview.png"
         img_save_path = "C:\\Users\\tuanat\\Desktop\\KBE Course\\dfa_server\\static\\" + img_name
         img_save_path = "C:\\Users\\Tuan\\meta\\KBEChairProject\\web_server\\static\\" + img_name
@@ -95,6 +99,25 @@ async def response(websocket, path):
 
         #final saving code
         nXObject1 = imageExportBuilder1.Commit()
+
+    #command anatomy: "optimize 10000 20000"
+    elif message[:8] == 'optimize':
+        cmd = message.split(' ')
+        force = cmd[1]
+        torque = cmd[2]
+
+        AA5086_yield = 215 #MPa
+        safety_factor = 1.4
+
+        target_stress = AA5086_yield / safety_factor
+
+        optimizer = Optimizer('model1', 'C:/Users/tuanat/Desktop/The loop')
+
+        optimizer.go_to_sim()
+        optimizer.update_force(30000)
+        optimizer.update_torque(50000)
+
+        optimizer.optimize(target_stress)
 
 #port stuff checkme
 start_server = websockets.serve(response, 'localhost', 1234)
