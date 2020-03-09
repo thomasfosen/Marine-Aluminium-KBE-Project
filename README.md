@@ -14,7 +14,7 @@ High level primitives (HLP) can be what the customer sees
 
 ## Method
 ### Architecture
-* Put a figure of the full architecture
+
 
 
 Our attention was directed towards having a functional loop. Instead of having a complex geometry we decided to start the simulation with a simple sphere(dfa template) with 6 surfaces. One of the surfaces gets a fixed constraint, and another is applied both a force and a torque. Although these steps are not in the loop, they are all made into functions and could be automated aswell.
