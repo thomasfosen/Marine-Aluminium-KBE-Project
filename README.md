@@ -101,7 +101,7 @@ Figure 2: Optimizer loop achitecture
 
 ## Discussion
 
-The main requirements for the system to be functional are met, although there is room for improvement in most components. 
+The main requirements for the system to be functional are met, although there is room for improvement in most components. The main focus in our system is the optimization loop, which means the node model and the user interface are simplified designs. These components in particular could, and should, be further improved.  
 
 
 
