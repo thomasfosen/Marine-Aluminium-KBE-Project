@@ -26,7 +26,7 @@ Figure 2: System loop achitecture
 
 
 
-We use websockets for the NX server to listen and communicate with the web server. When the customer has inputted the force and torque the node, with default diameter, goes through FEA generating a result which either meets the requirements and results in finished geometry, or gets sent back to the loop for further iteration in order to get a optimal geometry. As with the assignment of constraints, forces and torques, the geometry optimization is a simplified solution in that it is just a reduction of the sphere's diameter. A more complex solution could be to use topological optimization through use of Artificial neural networks(ANN) or a genetic algorithm(GA).
+We use websockets for the NX server to listen and communicate with the web server. When the customer has inputted the force and torque the node, with default diameter, goes through FEA generating a result which either meets the requirements and results in finished geometry, or gets sent back to the loop for further iteration in order to get a optimal geometry. As with the assignment of constraints, forces and torques, the geometry optimization is a simplified solution in that it is just a reduction of the sphere's diameter.
 
 When the results don't match up with the requirements, the loop sends us back to the part in NX, and then to modelling, where the Knowledge Fusion child rule is refreshed and the diameter is reduced with 10mm. The next part of the loop is to go to fem and update the mesh geometry and solve the simulation with the new geometry. Then the result are checked. If requirements are met the finished geometry is sent to the web server. If the requirements are not met the iteration continues.
 
