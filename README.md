@@ -101,5 +101,8 @@ Figure 2: Optimizer loop achitecture
 
 ## Discussion
 
+The main requirements for the system to be functional are met, although there is room for improvement in most components. 
+
+
 
 ## Conclusion
