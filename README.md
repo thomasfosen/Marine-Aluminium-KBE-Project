@@ -1,8 +1,4 @@
 # Marine-Aluminium-KBE-Project
-### Action points
-* Make NX server use websockets
-* Integrate website (user interface) with NX server
-
 
 ## Introduction
 This page is the culmination of work conducted under the KBE project course taught by Andrei Lobov. The report is written in iterative processes, updating new information as new goals and requirements are added. The work presented in this part involves the automated generation of a gusset node based on varying load parameters formulated by customer demands and engineer interpretation. The system architecture uses knowledge-based engineering (KBE) to capture engineering intent through parameterization to quickly automate generation of new product models based on customer and engineering demands.
@@ -18,7 +14,7 @@ High level primitives (HLP) can be what the customer sees
 
 ## Method
 ### Architecture
-* Put a figure of the full architecture
+
 
 
 Our attention was directed towards having a functional loop. Instead of having a complex geometry we decided to start the simulation with a simple sphere(dfa template) with 6 surfaces. One of the surfaces gets a fixed constraint, and another is applied both a force and a torque. Although these steps are not in the loop, they are all made into functions and could be automated aswell.
@@ -36,7 +32,7 @@ When the results don't match up with the requirements, the loop sends us back to
 
 <p align="center">
 <img src="https://github.com/thomasfosen/Marine-Aluminium-KBE-Project/blob/master/figures/system_architecture.PNG" width="600"><br>
-Figure 2: System loop achitecture
+Figure 3: System loop achitecture
 </p>
 
 
