@@ -46,3 +46,8 @@ To extract the results, the "result measures" function in NX was used. This func
 <img src="https://github.com/thomasfosen/Marine-Aluminium-KBE-Project/blob/master/figures/Recording-2.gif" width="600"><br>
 Figure 2: Optimizer loop achitecture
 </p>
+
+## Discussion
+
+
+## Conclusion
