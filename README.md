@@ -17,7 +17,7 @@ High level primitives (HLP) can be what the customer sees
 
 
 
-Our attention was directed towards having a functional loop. Instead of having a complex geometry we decided to start the simulation with a simple sphere(dfa template) with 6 surfaces. One of the surfaces gets a fixed constraint, and another is applied both a force and a torque. Although these steps are not in the loop, they are all made into functions and could be automated aswell.
+Our attention was directed towards having a functional loop. Instead of having a complex geometry we decided to start the simulation with a simple sphere(dfa template) with 6 surfaces. Although these steps are not in the loop, they are all made into functions and could be automated aswell.
 
 <p align="center">
 <img src="https://github.com/thomasfosen/Marine-Aluminium-KBE-Project/blob/master/figures/system_loop.PNG" width="600"><br>
@@ -31,7 +31,7 @@ We use websockets for the NX server to listen and communicate with the web serve
 When the results don't match up with the requirements, the loop sends us back to the part in NX, and then to modelling, where the Knowledge Fusion child rule is refreshed and the diameter is reduced with 10mm. The next part of the loop is to go to fem and update the mesh geometry and solve the simulation with the new geometry. Then the result are checked. If requirements are met the finished geometry is sent to the web server. If the requirements are not met the iteration continues.
 
 <p align="center">
-<img src="https://github.com/thomasfosen/Marine-Aluminium-KBE-Project/blob/master/figures/system_architecture.PNG" width="600"><br>
+<img src="https://github.com/thomasfosen/Marine-Aluminium-KBE-Project/blob/master/figures/system_architecture.PNG" width="900"><br>
 Figure 3: System loop achitecture
 </p>
 
@@ -77,7 +77,7 @@ Initial focus was directed towards system functionality and expandability, inste
 The mesh type chosen for this demonstration was TET10 for the simple reason that it's the most easy and flexible mesh yet capable to apply. A method for determining an appropriate mesh size was not developed. Instead a very simple algorithm based on the size of the node was used. The "lightning bolt" automatic mesh size function in NX was not available in the journal files.  
 
 ### Simulation environment
-To keep things simple, the load cases for the node was reduced to only one force and one torque acting on a single beam similarly to what can be seen in figure 1.
+The geometry is simplified by using a sphere with six surfaces. To keep things simple, the load cases for the node was reduced to only one force and one torque acting on the node. We put a fixed constraint on the bottom surface, a vertical surface is exposed to a force and the top surface is exposed to a torque.
 
 ### Result extraction
 To extract the results, the "result measures" function in NX was used. This function was available through the NXOpen class "ResultMeasures" and allowed max values of any kind to be accessed through python code. Initially, the plan was to use either the OP2, or other result files to read through simulation results. However, after much digging it was suspected that NX is applying a form of post-processing in order to convert stress into for example von mises and max principal stresses, which would make sense.
