@@ -36,7 +36,7 @@ When the results don't match up with the requirements, the loop sends us back to
 
 <p align="center">
 <img src="https://github.com/thomasfosen/Marine-Aluminium-KBE-Project/blob/master/figures/system_architecture.PNG" width="600"><br>
-Figure 2: System loop achitecture
+Figure 3: System loop achitecture
 </p>
 
 
