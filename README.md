@@ -96,7 +96,7 @@ Figure 3: Optimizer loop achitecture
 
 <p align="center">
 <img src="https://github.com/thomasfosen/Marine-Aluminium-KBE-Project/blob/master/figures/optimize.png" width="600"><br>
-Figure 2: Optimizer loop achitecture
+Figure 3: Optimizer loop achitecture
 </p>
 
 ## Discussion
@@ -107,4 +107,4 @@ The main requirements for the system to be functional are met, although there is
 
 ## Conclusion
 
-The system is considered functional with regard to the problem statement, although there are many improvements to be made.
+The system is considered functional with regard to the problem statement, although there are many improvements to be made. As mentioned earlier, the main effort has been to design a fully functioning optimization loop, as this was regarded as the main objective of the project, thus affecting the effort put into design and minor components.
