@@ -86,12 +86,14 @@ To extract the results, the "result measures" function in NX was used. This func
 ### Optimization/Results
 
 
-The following is a visualization of the optimization process. The loop has been initiated with a given value from the customer/engineer, and is now iterating through analyses. The final result is given as shown in figure 4.
-
+The following is a visualization of the optimization process. The loop has been initiated with a given value from the customer/engineer, and is now iterating through analyses, as can be seen in figure 3.
 <p align="center">
 <img src="https://github.com/thomasfosen/Marine-Aluminium-KBE-Project/blob/master/figures/Recording-2.gif" width="600"><br>
 Figure 3: Optimizer loop achitecture
 </p>
+
+The final result is given as shown in figure 4, showing the final stress and diameter of the node.
+
 
 <p align="center">
 <img src="https://github.com/thomasfosen/Marine-Aluminium-KBE-Project/blob/master/figures/optimize.png" width="600"><br>
