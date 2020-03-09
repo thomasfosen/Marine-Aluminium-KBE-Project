@@ -15,7 +15,7 @@ torque = args.t
 
 print(torque, force, cmd)
 
-"""
+
 async def message():
 	async with websockets.connect("ws://localhost:1234") as socket:
 
@@ -32,10 +32,9 @@ async def message():
 			await socket.send(cmd)
 
 		elif cmd == 'optimize':
-"""
+			await socket.send(cmd + ' ' + str(force) + ' ' + str(torque))
 
-
-#asyncio.get_event_loop().run_until_complete(message())
+asyncio.get_event_loop().run_until_complete(message())
 
 
 # The process needs to be launched from a seperate process thread. Doing this inside a flask application wasn't as straight forward as initially thought..

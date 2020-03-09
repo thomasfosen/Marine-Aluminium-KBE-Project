@@ -21,7 +21,7 @@ High level primitives (HLP) can be what the customer sees
 * Put a figure of the full architecture
 * Put a figure of the optimizer loop architecture
 
-Our attention was directed towards having a functional loop. Instead of having a complex geometry we decided to start the simulation with a simple sphere(dfa template) with 6 surfaces. One of the surfaces gets a fixed constraint, and another is applied both a force and a torque. Although these steps are not in the loop, they are all made into functions and could be automated aswell. 
+Our attention was directed towards having a functional loop. Instead of having a complex geometry we decided to start the simulation with a simple sphere(dfa template) with 6 surfaces. One of the surfaces gets a fixed constraint, and another is applied both a force and a torque. Although these steps are not in the loop, they are all made into functions and could be automated aswell.
 
 We use websockets for the NX server to listen and communicate with the web server. When the customer has inputted the force and torque the node, with default diameter, goes through FEA generating a result which either meets the requirements and results in finished geometry, or gets sent back to the loop for further iteration in order to get a optimal geometry. As with the assignment of constraints, forces and torques, the geometry optimization is a simplified solution in that it is just a reduction of the sphere's diameter. A more complex solution could be to use topological optimization through use of Artificial neural networks(ANN) or a genetic algorithm(GA).
 
@@ -36,3 +36,18 @@ To keep things simple, the load cases for the node was reduced to only one force
 
 ### Result extraction
 To extract the results, the "result measures" function in NX was used. This function was available through the NXOpen class "ResultMeasures" and allowed max values of any kind to be accessed through python code. Initially, the plan was to use either the OP2, or other result files to read through simulation results. However, after much digging it was suspected that NX is applying a form of post-processing in order to convert stress into for example von mises and max principal stresses, which would make sense.
+
+
+<p align="center">
+<img src="https://github.com/thomasfosen/Marine-Aluminium-KBE-Project/blob/master/figures/Recording-2.gif" width="600"><br>
+Figure 1: Example node <a href="https://www.scafom-rux.com/products/scaffolding/duralok">[Source]</a>
+</p>
+
+<p align="center">
+<img src="https://github.com/thomasfosen/Marine-Aluminium-KBE-Project/blob/master/figures/optimize.png" width="600"><br>
+Figure 1: Example node <a href="https://www.scafom-rux.com/products/scaffolding/duralok">[Source]</a>
+</p>
+
+## Discussion
+
+## Conclusion

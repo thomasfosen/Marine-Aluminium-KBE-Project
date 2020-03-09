@@ -113,6 +113,8 @@ async def response(websocket, path):
 
         optimizer = Optimizer('model1', 'C:/Users/tuanat/Desktop/The loop')
 
+        optimizer.print(force)
+
         optimizer.go_to_sim()
         optimizer.update_force(30000)
         optimizer.update_torque(50000)
