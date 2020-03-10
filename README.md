@@ -108,6 +108,8 @@ As mentioned before, the geometry changes being made are reductions of the spher
 
 Furthermore, it's important to note that the simulation environment for the node is very unrealistic. With our simplifications, the diameter of the entire node is reduced in each iteration. This also affects the diameter, thus, surface area of the beam connections. Because the force and torque objects are constrained to these surfaces, the main factor affecting the stress values is the surface area of the beam connection. In reality, the geometry of the truss beams would probably remain constant.
 
+Extracting results in a quick and efficient manner also proved to be a difficult task. In our approach, we used the "measure results" function available in NX. The problem, however, was finding out when to measure the results. If the results were measured before the analysis had finished, old values would be extracted. When NX Open initiates a simulation solve, a new parallel process seems to be created. For this project, we used a simple but inefficient wait function to allow the analysis to finish, with a margin. However, it is possible that NX Open has functions for detecting whether a simulation has finished. Another approach could be to watch the simulation result files, such as the .f04 or .op2 to detect when NX has finished making changes to them, indicating that the simulation has finished.
+
 ## Conclusion
 
 The system is considered functional with regard to the problem statement, although there are many improvements to be made. As mentioned earlier, the main effort has been to design a fully functioning optimization loop, as this was regarded as the main objective of the project, thus affecting the effort put into design and minor components.
