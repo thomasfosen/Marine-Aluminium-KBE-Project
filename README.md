@@ -17,7 +17,7 @@ High level primitives (HLP) can be what the customer sees
 
 
 
-Our attention was directed towards having a functional loop. Instead of having a complex geometry we decided to start the simulation with a simple sphere(dfa template) with 6 surfaces. Although these steps are not in the loop, they are all made into functions and could be automated aswell.
+Our attention was directed towards having a functional loop. Instead of having a complex geometry we decided to start the simulation with a simple sphere(dfa template) with 6 surfaces. Although these steps are not in the loop, they are all made into functions and could be automated as well.
 
 <p align="center">
 <img src="https://github.com/thomasfosen/Marine-Aluminium-KBE-Project/blob/master/figures/system_loop.PNG" width="600"><br>
@@ -73,6 +73,7 @@ asyncio.get_event_loop().run_until_complete(message())
 ### Gusset node
 Initial focus was directed towards system functionality and expandability, instead of the complexity of the node. Therefore, a simplistic shape was selected for the node this time. This allowed us to develop a system to generate the geometry while keeping track of relevant faces and bodies. Because of this functionality, changes to the node should be automatically incorporated by the system, allowing for changes and more complex nodes to be developed.
 
+
 ### Meshing
 The mesh type chosen for this demonstration was TET10 for the simple reason that it's the most easy and flexible mesh yet capable to apply. A method for determining an appropriate mesh size was not developed. Instead a very simple algorithm based on the size of the node was used. The "lightning bolt" automatic mesh size function in NX was not available in the journal files.  
 
@@ -89,7 +90,7 @@ To extract the results, the "result measures" function in NX was used. This func
 The following is a visualization of the optimization process. The loop has been initiated with a given value from the customer/engineer, and is now iterating through analyses, as can be seen in figure 3.
 <p align="center">
 <img src="https://github.com/thomasfosen/Marine-Aluminium-KBE-Project/blob/master/figures/Recording-2.gif" width="600"><br>
-Figure 3: Optimizer loop achitecture
+Figure 3: Optimizer loop architecture
 </p>
 
 The final result is given as shown in figure 4, showing the final stress and diameter of the node.
@@ -101,11 +102,11 @@ Figure 4: Optimizer loop results
 </p>
 
 ## Discussion
-
 The main requirements for the system to be functional are met, although there is room for improvement in most components. The main focus in our system is the optimization loop, which means the node model and the user interface are simplified designs. These components in particular could, and should, be further improved.  
 
 As mentioned before, the geometry changes being made are reductions of the sphere diameter by 10mm. This constant reduction could possibly be time inefficient. To make it more time efficient we could look at the difference between the resulted stress and the yield strength, and also how much impact the 10mm reduction has on the resulted stress, and calculate a more accurate reduction of the diameter. A more complex solution could be to use topology optimization combined with artificial neural networks(ANN) or a genetic algorithm(GA).
 
+Furthermore, it's important to note that the simulation environment for the node is very unrealistic. With our simplifications, the diameter of the entire node is reduced in each iteration. This also affects the diameter, thus, surface area of the beam connections. Because the force and torque objects are constrained to these surfaces, the main factor affecting the stress values is the surface area of the beam connection. In reality, the geometry of the truss beams would probably remain constant.
 
 ## Conclusion
 

@@ -36,8 +36,9 @@ class Optimizer():
 
     # requires modelling environment in part
     def refresh_KF_rule(self):
-        theSession = NXOpen.Session.GetSession()
-        workPart = theSession.Parts.BaseWork
+        theSession  = NXOpen.Session.GetSession()
+        workPart = theSession.Parts.Work
+        displayPart = theSession.Parts.Display
         workPart.RuleManager.Reload(True)
         workPart.RuleManager.RegenerateAll()
 
@@ -129,17 +130,15 @@ class Optimizer():
         # update dfa file geometry
         self.dfa_manager.change_node_diameter(current_node_diameter + change_in_diameter)
         # udate geometry by reloading and regenerating knowledge fusion rules (dfa file)
-        optimizer.refresh_KF_rule()
-
+        self.refresh_KF_rule()
         # go to fem modelling to update fem geometry(mesh)
         self.go_to_fem()
         # update mesh geometry
         self.update_fem_geometry()
-
         # go to sim environment to run simulation
         self.go_to_sim()
         # initiate solve
-        optimizer.solve()
+        self.solve()
 
         # extract results
         time.sleep(self.simulation_wait_time)
@@ -164,27 +163,24 @@ class Optimizer():
         optimize = True
         # how much the diameter will change in each iteration
         change_in_diameter = -10
-
-        self.print(1)
+        #result array
+        results = []
 
         while optimize == True:
-            self.print(5)
             # performs a single full iteration of updatating geometry, simulating and retrieving results
             result = self.perform_loop_iteration(change_in_diameter)
-            self.print(2)
-
+            results.append(result)
             # to detect when to stop the iteration. when target has been surpassed
             if result > target_stress:
                 optimize = False
-                self.print(3)
-
                 # saving the last diameter. although, we should be getting the previous diameter
                 # one solution is to store all the results in an array => easily get the previous result
                 final_diameter = current_node_diameter = self.dfa_manager.get_node_diameter()
 
                 #just a simple print for the user. This should be replaced with a message to the web server
-                self.print('Optimization has finished. Final stress:' + str(result) + '\n final diameter:' + str(final_diameter))
-
+                self.print('Optimization has finished. Final stress:' + str(result) + ' ' + str(results[-1]) + '\n final diameter:' + str(final_diameter))
+                #results[-2] is the second last value in the result array, meaning the last value prior to "if result > target_stress"
+                #for some reason, the loop doesn't start when using result[-2]????
     # These are very part specific
     def update_force(self, force, name='Force(1)'):
         theSession  = NXOpen.Session.GetSession()
@@ -256,7 +252,7 @@ class Optimizer():
 
         objects1 = [None] * 1
         objects1[0] = NXOpen.CAE.SetObject()
-        component1 = workSimPart.ComponentAssembly.RootComponent.FindObject("COMPONENT model1_fem1 1")
+        component1 = workSimPart.ComponentAssembly.RootComponent.FindObject("COMPONENT " + self.filename + "_fem1 1")
         cAEEdge1 = component1.FindObject("PROTO#CAE_Body(78)|CAE_Edge(1007)")
         objects1[0].Obj = cAEEdge1
         objects1[0].SubType = NXOpen.CAE.CaeSetObjectSubType.NotSet
@@ -285,8 +281,11 @@ if __name__ == '__main__':
 
     optimizer = Optimizer('model1', 'C:/Users/tuanat/Desktop/The loop')
 
-    optimizer.go_to_sim()
+    optimizer.refresh_KF_rule()
+
+
+    # optimizer.go_to_sim()
     # optimizer.update_force(30000)
     # optimizer.update_torque(50000)
 
-    optimizer.optimize(target_stress)
+    # optimizer.optimize(target_stress)

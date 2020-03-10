@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-
+import os
 
 app = Flask(__name__)
 
@@ -7,14 +7,14 @@ app = Flask(__name__)
 @app.route('/', methods=['GET','POST'])
 
 def main():
-
     customer_form = request.form
 
-    forcevalue = customer_form['forcevalue']
-	torquevalue = customer_form['torquevalue']
-
-
-    #os.system("start /B start cmd.exe @cmd /k start_communicator.bat 10 20 30")
+    if len(customer_form) > 0:
+        forcevalue = customer_form['forcevalue']
+        torquevalue = customer_form['torquevalue']
+        print(forcevalue, torquevalue)
+        if int(forcevalue) > 0 and int(torquevalue) > 0:
+            os.system("start /B start cmd.exe @cmd /k start_communicate.bat optimize " + str(forcevalue) + " " + str(torquevalue))
 
     return render_template('User.html')
 

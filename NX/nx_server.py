@@ -106,6 +106,7 @@ async def response(websocket, path):
         force = cmd[1]
         torque = cmd[2]
 
+        #These could also be input variables. Such as materials and desired safety factor
         AA5086_yield = 215 #MPa
         safety_factor = 1.4
 
@@ -114,6 +115,8 @@ async def response(websocket, path):
         optimizer = Optimizer('model1', 'C:/Users/tuanat/Desktop/The loop')
 
         optimizer.print(force)
+        optimizer.print(torque)
+        optimizer.print(target_stress)
 
         #optimizer.go_to_sim()
         #optimizer.update_force(30000)
